@@ -1,0 +1,21 @@
+#!/bin/bash
+#SBATCH -N 1
+#SBATCH --ntasks-per-node=1
+#SBATCH --gres=gpu:1
+#SBATCH --cpus-per-task=4
+#SBATCH --partition=m100_usr_prod
+##SBATCH --partition=m100_usr_preempt
+#SBATCH -A tra21_moldyn
+#SBATCH --mem=20GB
+#SBATCH -t 00:30:00
+
+PORT=$1
+NOTEBOOK_DIR=$2
+cd $NOTEBOOK_DIR
+
+
+module load autoload profile/deeplrn jupyter
+module load profile/lifesc gromacs
+module load numpy
+source  $HOME/analysis/bin/activate
+jupyter notebook --ip=127.0.0.1 --no-browser --port=$PORT
